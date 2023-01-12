@@ -10,6 +10,7 @@ export default class Search extends Component {
     categorias: [],
     busca: '',
     products: [],
+    categoryList: [],
   };
 
   async componentDidMount() {
@@ -35,8 +36,27 @@ export default class Search extends Component {
     });
   };
 
+  handleClickCategory = async ({ target }) => {
+    const { id } = target;
+    const productCategory = await getProductsFromCategoryAndQuery(id, null);
+    console.log(productCategory);
+    this.setState({
+      categoryList: productCategory.results,
+    });
+  };
+
   render() {
-    const { categorias, busca, products } = this.state;
+    const { categorias, busca, products, categoryList } = this.state;
+    const functionPesquisa = (pesquisa) => (
+      pesquisa.map(({ title, thumbnail, price, id }) => (
+        <Product
+          key={ id }
+          title={ title }
+          thumbnail={ thumbnail }
+          price={ price }
+        />
+      )));
+
     return (
       <div>
         <input
@@ -56,7 +76,15 @@ export default class Search extends Component {
         <MensagemInicial />
         <div>
           { categorias.map(({ name, id }) => (
-            <button data-testid="category" type="button" key={ id }>{name}</button>
+            <button
+              id={ id }
+              data-testid="category"
+              type="button"
+              key={ id }
+              onClick={ this.handleClickCategory }
+            >
+              { name }
+            </button>
           ))}
           ;
         </div>
@@ -67,14 +95,9 @@ export default class Search extends Component {
         >
           Pesquisa
         </button>
-        { products.length > 0 ? products.map(({ title, thumbnail, price, id }) => (
-          <Product
-            key={ id }
-            title={ title }
-            thumbnail={ thumbnail }
-            price={ price }
-          />
-        )) : <ProductNotFound />}
+        { products.length > 0 ? functionPesquisa(products) : <ProductNotFound />}
+        ;
+        { categoryList.length > 0 && functionPesquisa(categoryList)}
         ;
       </div>
     );
