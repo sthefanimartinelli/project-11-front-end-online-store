@@ -10,7 +10,7 @@ export default class Links extends Component {
       <Switch>
         <Route exact path="/" component={ Home } />
         <Route exact path="/cart" component={ ShopCart } />
-        <Route exact path="/details" component={ ProductDetails } />
+        <Route exact path="/details/:id" component={ ProductDetails } />
       </Switch>
     );
   }
