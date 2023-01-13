@@ -39,7 +39,7 @@ export default class Search extends Component {
   handleClickCategory = async ({ target }) => {
     const { id } = target;
     const productCategory = await getProductsFromCategoryAndQuery(id, null);
-    console.log(productCategory);
+    // console.log(productCategory);
     this.setState({
       categoryList: productCategory.results,
     });
@@ -54,6 +54,7 @@ export default class Search extends Component {
           title={ title }
           thumbnail={ thumbnail }
           price={ price }
+          // onClick={ console.log(results.id) }
         />
       )));
 
