@@ -7,7 +7,7 @@ export default class ProductDetails extends Component {
   state = {
     pDetails: {},
   };
-
+alguma coisa
   componentDidMount() {
     this.handleRequisition();
   }
