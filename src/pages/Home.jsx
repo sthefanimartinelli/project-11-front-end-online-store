@@ -39,7 +39,7 @@ export default class Search extends Component {
   handleClickCategory = async ({ target }) => {
     const { id } = target;
     const productCategory = await getProductsFromCategoryAndQuery(id, null);
-    console.log(productCategory);
+    // console.log(productCategory);
     this.setState({
       categoryList: productCategory.results,
     });
@@ -49,12 +49,14 @@ export default class Search extends Component {
     const { categorias, busca, products, categoryList } = this.state;
     const functionPesquisa = (pesquisa) => (
       pesquisa.map(({ title, thumbnail, price, id }) => (
-        <Product
-          key={ id }
-          title={ title }
-          thumbnail={ thumbnail }
-          price={ price }
-        />
+        <Link key={ id } to={ `/details/${id}` }>
+          <Product
+            key={ id }
+            title={ title }
+            thumbnail={ thumbnail }
+            price={ price }
+          />
+        </Link>
       )));
 
     return (
@@ -67,6 +69,13 @@ export default class Search extends Component {
           value={ busca }
           onChange={ this.handleChange }
         />
+        <button
+          type="button"
+          data-testid="query-button"
+          onClick={ this.handleClick }
+        >
+          Pesquisa
+        </button>
         <Link
           to="/Cart"
           data-testid="shopping-cart-button"
@@ -88,13 +97,6 @@ export default class Search extends Component {
           ))}
           ;
         </div>
-        <button
-          type="button"
-          data-testid="query-button"
-          onClick={ this.handleClick }
-        >
-          Pesquisa
-        </button>
         { products.length > 0 ? functionPesquisa(products) : <ProductNotFound />}
         ;
         { categoryList.length > 0 && functionPesquisa(categoryList)}
