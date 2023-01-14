@@ -7,7 +7,7 @@ export default class ProductDetails extends Component {
   state = {
     pDetails: {},
   };
-alguma coisa
+
   componentDidMount() {
     this.handleRequisition();
   }
@@ -29,12 +29,13 @@ alguma coisa
   render() {
     const { pDetails: { id, title, thumbnail, price } } = this.state;
     return (
-      <div data-testid="product-detail-link">
+      <div>
         <Product
           key={ id }
           title={ title }
           thumbnail={ thumbnail }
           price={ price }
+          // id={ id }
         />
 
         <button
@@ -42,7 +43,7 @@ alguma coisa
           type="button"
           onClick={ this.redirectToCart }
         >
-          add to cart
+          vai pro carrinho
         </button>
       </div>
     );

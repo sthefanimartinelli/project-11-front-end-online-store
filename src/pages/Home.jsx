@@ -11,6 +11,7 @@ export default class Search extends Component {
     busca: '',
     products: [],
     categoryList: [],
+    produtosCart: [],
   };
 
   async componentDidMount() {
@@ -20,6 +21,21 @@ export default class Search extends Component {
       categorias: categoryList,
     });
   }
+
+  // componentDidUpdate() {
+  //   const { produtosCart } = this.state;
+  //   localStorage.setItem('produtosCarrinho', JSON.stringify(produtosCart));
+  // }
+
+  addToCart = (id) => {
+    const { products, produtosCart } = this.state;
+    const produtoSelecionado = products.find((element) => element.id === id);
+
+    this.setState(() => ({
+      produtosCart: [...produtosCart, produtoSelecionado],
+    }), () => localStorage.setItem('produtosCarrinho', JSON.stringify(produtosCart)));
+    console.log(...produtosCart);
+  };
 
   handleChange = ({ target }) => {
     const { value } = target;
@@ -49,14 +65,15 @@ export default class Search extends Component {
     const { categorias, busca, products, categoryList } = this.state;
     const functionPesquisa = (pesquisa) => (
       pesquisa.map(({ title, thumbnail, price, id }) => (
-        <Link key={ id } to={ `/details/${id}` }>
-          <Product
-            key={ id }
-            title={ title }
-            thumbnail={ thumbnail }
-            price={ price }
-          />
-        </Link>
+        <Product
+          addToCart={ () => this.addToCart(id) }
+          key={ id }
+          title={ title }
+          thumbnail={ thumbnail }
+          price={ price }
+          id={ `/details/${id}` }
+        />
+
       )));
 
     return (
