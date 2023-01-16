@@ -27,14 +27,12 @@ export default class ProductDetails extends Component {
   };
 
   render() {
-    const { pDetails: { id, title, thumbnail, price } } = this.state;
+    const { pDetails: product } = this.state;
     return (
       <div>
         <Product
-          key={ id }
-          title={ title }
-          thumbnail={ thumbnail }
-          price={ price }
+          key={ product.id }
+          product={ product }
         />
 
         <button

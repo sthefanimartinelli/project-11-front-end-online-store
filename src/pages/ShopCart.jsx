@@ -3,7 +3,7 @@ import EmptyCartMsg from '../components/EmptyCartMsg';
 
 export default class ShopCart extends Component {
   state = {
-    renderProducts: [],
+    renderProducts: undefined,
   };
 
   componentDidMount() {
@@ -21,9 +21,10 @@ export default class ShopCart extends Component {
   render() {
     const { renderProducts } = this.state;
     console.log(renderProducts);
+
     return (
       <div>
-        {renderProducts.length > 0 ? renderProducts.map((element) => (
+        {renderProducts ? renderProducts.map((element) => (
           <div key={ element.id }>
             <h1 data-testid="shopping-cart-product-name">{element.title}</h1>
             <img src={ element.thumbnail } alt="produto" />
