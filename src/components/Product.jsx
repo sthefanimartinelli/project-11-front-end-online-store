@@ -6,12 +6,12 @@ export default class Product extends Component {
   render() {
     const { title, thumbnail, price, addToCart, id } = this.props;
     return (
-      <div data-testid="product-detail-link">
+      <div>
         <div data-testid="product">
           <h2 data-testid="product-detail-name">{ title }</h2>
           <img src={ thumbnail } alt="produto" data-testid="product-detail-image" />
           <p data-testid="product-detail-price">{ price }</p>
-          <Link to={ id }>detalhes do produto</Link>
+          <Link data-testid="product-detail-link" to={ id }>detalhes do produto</Link>
         </div>
         <button
           type="button"

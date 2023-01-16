@@ -35,7 +35,6 @@ export default class ProductDetails extends Component {
           title={ title }
           thumbnail={ thumbnail }
           price={ price }
-          // id={ id }
         />
 
         <button

@@ -22,10 +22,10 @@ export default class Search extends Component {
     });
   }
 
-  // componentDidUpdate() {
-  //   const { produtosCart } = this.state;
-  //   localStorage.setItem('produtosCarrinho', JSON.stringify(produtosCart));
-  // }
+  componentDidUpdate() {
+    const { produtosCart } = this.state;
+    localStorage.setItem('produtosCarrinho', JSON.stringify(produtosCart));
+  }
 
   addToCart = (id) => {
     const { products, produtosCart } = this.state;
