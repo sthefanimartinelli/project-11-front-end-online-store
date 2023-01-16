@@ -96,6 +96,7 @@ export default class Search extends Component {
           addToCart={ () => this.addToCart(product) }
           key={ product.id }
           product={ product }
+          productID="product-add-to-cart"
 
         />
 
