@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default class Product extends Component {
   render() {
-    const { product, addToCart } = this.props;
+    const { product, addToCart, productID } = this.props;
     return (
       <div>
         <div data-testid="product">
@@ -24,7 +24,7 @@ export default class Product extends Component {
           </Link>
         </div>
         <button
-          data-testid="product-add-to-cart"
+          data-testid={ productID }
           type="button"
           onClick={ () => addToCart(product) }
         >
