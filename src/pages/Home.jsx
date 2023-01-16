@@ -11,30 +11,57 @@ export default class Search extends Component {
     busca: '',
     products: [],
     categoryList: [],
-    produtosCart: [],
+
   };
 
   async componentDidMount() {
     const categoryList = await getCategories();
-
     this.setState({
       categorias: categoryList,
+
     });
   }
 
-  componentDidUpdate() {
-    const { produtosCart } = this.state;
-    localStorage.setItem('produtosCarrinho', JSON.stringify(produtosCart));
-  }
+  // componentDidUpdate() {
+  //   const { produtosCart } = this.state;
+  //   localStorage.setItem('produtosCarrinho', JSON.stringify(produtosCart));
+  // }
 
-  addToCart = (id) => {
-    const { products, produtosCart } = this.state;
-    const produtoSelecionado = products.find((element) => element.id === id);
+  addToCart = (produto) => {
+    // console.log(produto);
+    // produto.qtt = 1;
+    // const { produtosCart } = this.state;
+    // recuperar local storage.
+    // verificar oq retornou do local storage.
+    // primero caso: primeiro produto add. localStorage.setItem('produtosCarrinho', JSON.stringify([produto])))
+    // segundo caso: ja existem um produto, estou add produtos diferentes
+    // localStorage.setItem('produtosCarrinho', JSON.stringify([...retornolocalStorage, produto])))
+    // terceiro caso: estou add um produto que ja existe, manipular o objeto retornado do local storage
+    // JSON.stringify([...retornolocalStorage])))
 
-    this.setState(() => ({
-      produtosCart: [...produtosCart, produtoSelecionado],
-    }), () => localStorage.setItem('produtosCarrinho', JSON.stringify(produtosCart)));
-    console.log(...produtosCart);
+    if (localStorage.getItem('produtosCarrinho') === null) {
+      produto.qqt = 1;
+      localStorage.setItem('produtosCarrinho', JSON.stringify([produto]));
+    } else {
+      const recuperaProdutosCart = JSON.parse(localStorage.getItem('produtosCarrinho'));
+      const produtoJaExiste = recuperaProdutosCart
+        .some((element) => element.id === produto.id);
+      if (!produtoJaExiste) {
+        produto.qqt = 1;
+        localStorage
+          .setItem('produtosCarrinho', JSON
+            .stringify([...recuperaProdutosCart, produto]));
+      } else {
+        const indexProduto = recuperaProdutosCart
+          .findIndex((element) => element.id === produto.id);
+        recuperaProdutosCart[indexProduto].qqt += 1;
+        localStorage
+          .setItem('produtosCarrinho', JSON.stringify([...recuperaProdutosCart]));
+      }
+    }
+    // this.setState(() => ({
+    //   produtosCart: [...produtosCart, produto],
+    // }), () => localStorage.setItem('produtosCarrinho', JSON.stringify(produtosCart)));
   };
 
   handleChange = ({ target }) => {
@@ -64,14 +91,12 @@ export default class Search extends Component {
   render() {
     const { categorias, busca, products, categoryList } = this.state;
     const functionPesquisa = (pesquisa) => (
-      pesquisa.map(({ title, thumbnail, price, id }) => (
+      pesquisa.map((product) => (
         <Product
-          addToCart={ () => this.addToCart(id) }
-          key={ id }
-          title={ title }
-          thumbnail={ thumbnail }
-          price={ price }
-          id={ `/details/${id}` }
+          addToCart={ () => this.addToCart(product) }
+          key={ product.id }
+          product={ product }
+
         />
 
       )));
